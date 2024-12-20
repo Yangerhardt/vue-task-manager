@@ -4,4 +4,5 @@ export interface Task {
   duration: number;
   status: 'backlog' | 'inProgress' | 'completed' | 'blocked';
   priority: 'Low' | 'Medium' | 'High';
+  note?: string;
 }

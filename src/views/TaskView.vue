@@ -1,9 +1,13 @@
 <template>
   <main>
     <h1>Task View</h1>
-    <li v-for="task in tasks" :key="task.id">
-      <TaskCard :task="task" :id="'task-' + task.id" />
-    </li>
+
+    <div v-if="tasks.length > 0">
+      <li v-for="task in tasks" :key="task.id">
+        <TaskCard :task="task" :id="'task-' + task.id" />
+      </li>
+    </div>
+    <div v-else>No task on the board</div>
 
     <RouterView />
   </main>
@@ -52,7 +56,7 @@ main {
     gap: 12px;
   }
 
-  > li {
+  > div > li {
     list-style: none;
   }
 }
