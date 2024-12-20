@@ -1,35 +1,46 @@
 <template>
   <main>
     <h1>Task View</h1>
-    <p>Task ID: {{ taskId  }}</p>
-    <div>
-      <button @click="updateQueryParam">Update Query</button>
-      <button @click="previousParam">Back to previous</button>
-    </div>
+    <li v-for="task in tasks" :key="task.id">
+      <TaskCard :task="task" :id="'task-' + task.id" />
+    </li>
+
+    <RouterView />
   </main>
 </template>
 
 <script setup lang="ts">
+import TaskCard from '@/components/TaskCard.vue';
+import type { Task } from '@/types/Task';
 import { ref, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router';
 
-const route = useRoute()
-const router = useRouter()
+const route = useRoute();
+const taskId = ref(route.params.id);
 
-const taskId = ref(route.params.id)
+watch(
+  () => route.params.id,
+  (newId) => {
+    taskId.value = newId;
+  },
+);
 
-const updateQueryParam = () => {
-  const updatedId = parseInt(taskId.value as string) + 1
-  router.push({ path: `/task/${updatedId}` })
-}
-
-const previousParam = () => {
-  router.back()
-}
-
-watch(() => route.params.id, (newId) => {
-  taskId.value = newId;
-})
+const tasks = ref<Task[]>([
+  {
+    id: '1',
+    title: 'Task 1',
+    duration: 1,
+    status: 'backlog',
+    priority: 'Low',
+  },
+  {
+    id: '2',
+    title: 'Task 2',
+    duration: 2,
+    status: 'blocked',
+    priority: 'Medium',
+  },
+]);
 </script>
 
 <style scoped>
@@ -39,6 +50,10 @@ main {
     flex-direction: column;
     max-width: 50%;
     gap: 12px;
+  }
+
+  > li {
+    list-style: none;
   }
 }
 </style>
