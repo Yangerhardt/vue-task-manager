@@ -1,3 +1,25 @@
+<template>
+  <div class="container" :class="task.status">
+    <div class="task-id-container">
+      <p class="task-id">#{{ task.id }}</p>
+    </div>
+    <h2>{{ task.title }}</h2>
+    <div class="bottom-container">
+      <p>{{ getTaskPriority(task.priority) }}</p>
+      <p>{{ task.duration }} days</p>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import type { Task } from '@/types/Task.d';
+import { getTaskPriority } from '@/utils/taskUtils';
+
+defineProps<{
+  task: Task;
+}>();
+</script>
+
 <style scoped>
 @import '../assets/styles/base.css';
 
@@ -49,24 +71,3 @@
   width: 36px;
 }
 </style>
-
-<template>
-  <div class="container" :class="task.status">
-    <div class="task-id-container">
-      <p class="task-id">#{{ task.id }}</p>
-    </div>
-    <h2>{{ task.title }}</h2>
-    <div class="bottom-container">
-      <p>{{ task.priority }}</p>
-      <p>{{ task.duration }} days</p>
-    </div>
-  </div>
-</template>
-
-<script setup lang="ts">
-import type { Task } from '@/types/Task';
-
-defineProps<{
-  task: Task;
-}>();
-</script>

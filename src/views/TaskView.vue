@@ -45,18 +45,13 @@ import {
   type TaskPriority,
   type TaskStatus,
 } from '@/types/Task.d';
+import { getTaskPriority, getTaskStatus } from '@/utils/taskUtils';
 import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
 const taskId = computed(() => route.params.id);
 const newTaskForm = ref(false);
-const getTaskStatus = (status: TaskStatus) => {
-  return TASK_STATUS_LABELS[status] || status;
-};
-const getTaskPriority = (priority: TaskPriority) => {
-  return TASK_PRIORITY_LABELS[priority] || priority;
-};
 
 const newTask = ref<Task>({
   id: '',
