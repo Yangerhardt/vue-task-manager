@@ -9,6 +9,10 @@
     </div>
     <div v-else>No task on the board</div>
 
+    <button @click="newTaskForm = true">Create New Task</button>
+
+    <p>{{ taskId }}</p>
+
     <RouterView />
   </main>
 </template>
@@ -16,19 +20,12 @@
 <script setup lang="ts">
 import TaskCard from '@/components/TaskCard.vue';
 import type { Task } from '@/types/Task';
-import { ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
-const taskId = ref(route.params.id);
-
-watch(
-  () => route.params.id,
-  (newId) => {
-    taskId.value = newId;
-  },
-);
-
+const taskId = computed(() => route.params.id);
+const newTaskForm = ref(false);
 const tasks = ref<Task[]>([
   {
     id: '1',
@@ -45,6 +42,17 @@ const tasks = ref<Task[]>([
     priority: 'Medium',
   },
 ]);
+
+const createTask = () => {
+  tasks.value.push({
+    id: String(tasks.value.length + 1),
+    title: `Task ${tasks.value.length + 1}`,
+    duration: Math.floor(Math.random() * 10) + 1,
+    status: 'backlog',
+    priority: 'Low',
+  });
+};
+
 </script>
 
 <style scoped>
