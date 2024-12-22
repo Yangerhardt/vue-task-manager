@@ -45,6 +45,7 @@ defineProps<{
   border-radius: 4px;
   color: var(--vt-c-black);
   max-width: 200px;
+  margin-bottom: 12px;
 
   h2 {
     margin: 0;
