@@ -9,57 +9,22 @@
     </div>
     <div v-else>No task on the board</div>
 
-    <button @click="newTaskForm = true">Create New Task</button>
-
-    <div v-if="newTaskForm">
-      <form @submit.prevent="createTask(newTask)">
-        <input v-model="newTask.title" placeholder="Task Title" />
-        <input v-model="newTask.duration" placeholder="Duration" />
-        <select v-model="newTask.status">
-          <option v-for="status in TASK_STATUSES" :key="status" :value="status">
-            {{ getTaskStatus(status as TaskStatus) }}
-          </option>
-        </select>
-        <select v-model="newTask.priority">
-          <option v-for="priority in TASK_PRIORITIES" :key="priority" :value="priority">
-            {{ getTaskPriority(priority as TaskPriority) }}
-          </option>
-        </select>
-        <button type="submit">Create Task</button>
-        <button @click="newTaskForm = false">Cancel</button>
-      </form>
-    </div>
-
+    <TaskForm :tasks="tasks" />
     <RouterView />
   </main>
 </template>
 
 <script setup lang="ts">
 import TaskCard from '@/components/TaskCard.vue';
-import {
-  TASK_PRIORITIES,
-  TASK_PRIORITY_LABELS,
-  TASK_STATUS_LABELS,
-  TASK_STATUSES,
-  type Task,
-  type TaskPriority,
-  type TaskStatus,
-} from '@/types/Task.d';
-import { getTaskPriority, getTaskStatus } from '@/utils/taskUtils';
+import TaskForm from '@/components/TaskForm.vue';
+import type { Task } from '@/types/Task.d';
+
 import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
 const taskId = computed(() => route.params.id);
-const newTaskForm = ref(false);
 
-const newTask = ref<Task>({
-  id: '',
-  title: '',
-  duration: 0,
-  status: 'backlog',
-  priority: 'low',
-});
 const tasks = ref<Task[]>([
   {
     id: '1',
@@ -77,15 +42,6 @@ const tasks = ref<Task[]>([
   },
 ]);
 
-const createTask = (task: Task) => {
-  tasks.value.push({
-    id: String(tasks.value.length + 1),
-    title: task.title,
-    duration: task.duration,
-    status: task.status,
-    priority: task.priority,
-  });
-};
 </script>
 
 <style scoped>
@@ -93,7 +49,6 @@ main {
   > div {
     display: flex;
     flex-direction: column;
-    max-width: 50%;
     gap: 12px;
   }
 
