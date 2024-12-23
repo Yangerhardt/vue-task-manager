@@ -29,7 +29,7 @@
 import { useTaskStore } from '@/stores/tasks';
 import CreateNewTaskForm from '../components/CreateNewTaskForm.vue';
 import TaskCard from '@/components/TaskCard.vue';
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import draggable from 'vuedraggable';
 import { TASK_STATUS_LABELS, TASK_STATUSES, type Task, type TaskStatus } from '@/types/Task.d';
