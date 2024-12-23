@@ -2,7 +2,7 @@
   <button @click="newTaskForm = true">Create New Task</button>
 
   <div v-if="newTaskForm">
-    <form @submit.prevent="createTask(newTask, ref(tasks))">
+    <form @submit.prevent="createTask">
       <input v-model.trim="newTask.title" placeholder="Task Title" />
       <input v-model.number="newTask.duration" placeholder="Duration" />
       <select v-model="newTask.status">
@@ -22,21 +22,24 @@
 </template>
 
 <script setup lang="ts">
+import { useTaskStore } from '@/stores/tasks';
 import {
   TASK_PRIORITIES,
   TASK_STATUSES,
+  type GlobalTasks,
   type Task,
   type TaskPriority,
   type TaskStatus,
 } from '@/types/Task.d';
 import { getTaskPriority, getTaskStatus } from '@/utils/taskUtils';
-import { ref, type Ref } from 'vue';
+import { ref } from 'vue';
 
 defineProps<{
-  tasks: Task[];
+  tasks: GlobalTasks;
 }>();
 
 const newTaskForm = ref(false);
+const { addTask } = useTaskStore();
 
 const newTask = ref<Task>({
   id: '',
@@ -46,13 +49,13 @@ const newTask = ref<Task>({
   priority: 'low',
 });
 
-const createTask = (task: Task, tasks: Ref<Task[]>) => {
-  tasks.value.push({
-    id: String(tasks.value.length + 1),
-    title: task.title,
-    duration: task.duration,
-    status: task.status,
-    priority: task.priority,
-  });
+const createTask = () => {
+  const taskToAdd: Task = {
+    ...newTask.value,
+    id: '4',
+  };
+
+  addTask(taskToAdd, taskToAdd.status);
+  newTaskForm.value = false;
 };
 </script>

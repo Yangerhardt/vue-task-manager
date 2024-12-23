@@ -3,20 +3,9 @@
     <h1>Task View</h1>
 
     <div class="columns">
-      <div class="column">
-        <h2>Backlog</h2>
-        <draggable v-model="backlogTasks" group="tasks">
-          <template #item="{ element }">
-            <li :key="element.id">
-              <TaskCard :task="element" :id="'task-' + element.id" />
-            </li>
-          </template>
-        </draggable>
-      </div>
-
-      <div class="column">
-        <h2>In Progress</h2>
-        <draggable v-model="inProgressTasks" group="tasks">
+      <div v-for="column in TASK_STATUSES" :key="column" class="column" :data-status="column">
+        <h2>{{ TASK_STATUS_LABELS[column] }}</h2>
+        <draggable v-model="tasks[column]" group="tasks" @change="onTaskMoved" item-key="id">
           <template #item="{ element }">
             <li :key="element.id">
               <TaskCard :task="element" :id="'task-' + element.id" />
@@ -32,42 +21,21 @@
 </template>
 
 <script setup lang="ts">
+import { useTaskStore } from '@/stores/tasks';
 import CreateNewTaskForm from '../components/CreateNewTaskForm.vue';
 import TaskCard from '@/components/TaskCard.vue';
-import type { Task } from '@/types/Task.d';
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import draggable from 'vuedraggable';
+import { TASK_STATUS_LABELS, TASK_STATUSES } from '@/types/Task.d';
 
 const route = useRoute();
 const taskId = computed(() => route.params.id);
+const { tasks } = useTaskStore();
 
-const backlogTasks = ref<Task[]>([
-  {
-    id: '1',
-    title: 'Task 1',
-    duration: 1,
-    status: 'backlog',
-    priority: 'low',
-  },
-  {
-    id: '2',
-    title: 'Task 2',
-    duration: 2,
-    status: 'backlog',
-    priority: 'medium',
-  },
-]);
-
-const inProgressTasks = ref<Task[]>([
-  {
-    id: '3',
-    title: 'Task 3',
-    duration: 3,
-    status: 'inProgress',
-    priority: 'high',
-  },
-]);
+const onTaskMoved = (evt: any) => {
+  console.log(evt);
+};
 </script>
 
 <style scoped>

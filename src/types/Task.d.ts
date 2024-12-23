@@ -27,3 +27,5 @@ export const TASK_PRIORITY_LABELS: Record<TaskPriority, string> = {
   medium: 'Medium',
   high: 'High',
 };
+
+export type GlobalTasks = Record<TaskStatus, Task[]>;
