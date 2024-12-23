@@ -30,15 +30,9 @@ export const useTaskStore = defineStore('tasks', () => {
   };
 
   const moveTask = (task: Task, from: TaskStatus, to: TaskStatus) => {
-    const index = tasks.value[from].findIndex((t) => t.id === task.id);
-    if (index > -1) {
-      const [movedTask] = tasks.value[from].splice(index, 1);
-      movedTask.status = to; 
-      tasks.value[to].push(movedTask);
-    }
-
-    console.log('##########Task moved:', task, from, to);
-    console.log('##########Task :', task);
+    tasks.value[from] = tasks.value[from].filter((t) => t.id !== task.id);
+    // O draggable já cuida da remoção do item da lista de origem, então só precisamos modificar o status da task
+    task.status = to;
   };
 
   return { tasks, addTask, moveTask };

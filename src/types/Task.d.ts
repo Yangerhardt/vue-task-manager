@@ -5,6 +5,8 @@ export interface Task {
   status: 'backlog' | 'inProgress' | 'completed' | 'blocked';
   priority: 'low' | 'medium' | 'high';
   note?: string;
+  startDate?: string;
+  completeDate?: string;
 }
 
 export const TASK_STATUSES = ['backlog', 'inProgress', 'completed', 'blocked'] as const;
