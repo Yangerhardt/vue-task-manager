@@ -2,6 +2,8 @@
   <main>
     <h1>Task View</h1>
 
+    <CreateNewTaskForm :tasks="tasks" />
+
     <div class="columns">
       <div v-for="column in TASK_STATUSES" :key="column" class="column" :data-status="column">
         <h2>{{ TASK_STATUS_LABELS[column] }}</h2>
@@ -20,15 +22,14 @@
       </div>
     </div>
 
-    <CreateNewTaskForm :tasks="tasks" />
     <RouterView />
   </main>
 </template>
 
 <script setup lang="ts">
 import { useTaskStore } from '@/stores/tasks';
-import CreateNewTaskForm from '../components/CreateNewTaskForm.vue';
-import TaskCard from '@/components/TaskCard.vue';
+import CreateNewTaskForm from '../components/tasks/CreateNewTaskForm.vue';
+import TaskCard from '@/components/tasks/TaskCard.vue';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import draggable from 'vuedraggable';

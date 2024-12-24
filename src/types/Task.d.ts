@@ -7,6 +7,7 @@ export interface Task {
   note?: string;
   startDate?: string;
   completeDate?: string;
+  sprtinId?: string;
 }
 
 export const TASK_STATUSES = ['backlog', 'inProgress', 'completed', 'blocked'] as const;

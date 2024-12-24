@@ -21,7 +21,7 @@ defineProps<{
 </script>
 
 <style scoped>
-@import '../assets/styles/base.css';
+@import '@/assets/styles/base.css';
 
 .backlog {
   background-color: #efefef;
